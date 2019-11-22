@@ -1,0 +1,41 @@
+#security:
+ # oauth2:
+  #  client:
+   #   clientId: 2528305550772034
+    #  clientSecret: 914b1d4a7220f377ded7d29ff32212d6
+     # accessTokenUri: https://graph.facebook.com/oauth/access_token
+      #userAuthorizationUri: https://www.facebook.com/dialog/oauth
+     # tokenName: oauth_token
+     # authenticationScheme: query
+     # clientAuthenticationScheme: form
+   # resource:
+   #   userInfoUri: https://graph.facebook.com/me
+
+
+server:
+  port: 8080
+  servlet:
+    session:
+      tracking-modes: cookie
+okta:
+  client:
+    orgUrl: http://localhost:8080/
+  oauth2:
+    redirectUri: /authorization-code/callback
+    issuer: https://dev-773629.okta.com/oauth2/default
+    clientSecret: PqJ_V2Dhgc-HWWOSMCzuY8RqgkLfw2utNTksx3fP
+    clientId: 0oa1wtvmwmCaUsQ4z357
+
+#https://dev-773629.okta.com/oauth2/v1/authorize/callback
+#okta.oauth2.issuer=https://dev-773629.okta.com/oauth2/default
+#okta.oauth2.client-id=0oa1wtvmwmCaUsQ4z357
+#okta.oauth2.client-secret=PqJ_V2Dhgc-HWWOSMCzuY8RqgkLfw2utNTksx3fP
+# Configure the callback URL to match the previous section
+#okta.oauth2.redirect-uri=/authorization-code/callback
+security:
+  oauth2:
+    client:
+      # Redirect to your local page and render the widget
+      userAuthorizationUri: http://localhost:${server.port}/login
+      scope: openid profile email
+

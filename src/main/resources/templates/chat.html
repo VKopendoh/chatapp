@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Чат</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/4.1.0/webjars-requirejs.js"></script>
+
+</head>
+<body>
+
+<div id="chat-container">
+    <div class="chat-header">
+        <div class="user-container">
+            <span id="username" th:utext="${username}"></span>
+            <a th:href="@{/logout}">Выход</a>
+        </div>
+        <h3>Активные пользователи:</h3>
+        <div id="elem" class="online">
+        </div>
+    </div>
+
+    <hr/>
+
+    <div id="connecting">Соединение...</div>
+    <ul id="messageArea">
+        <li th:each="message : ${messages}" class="chat-message">
+            <strong class="nickname">[[${message.sender}]]</strong>
+            <span>[[${message.content}]]</span>
+        </li>
+    </ul>
+    <form id="messageForm" name="messageForm">
+        <div class="input-message">
+            <input type="text" id="message" autocomplete="off"
+                   placeholder="Напишите сообщение..."/>
+            <button type="submit">Послать сообщение</button>
+        </div>
+    </form>
+
+</div>
+
+
+
+<script th:src="@{/js/ws.js}"></script>
+
+</body>
+</html>
