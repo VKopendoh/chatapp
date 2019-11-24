@@ -1,4 +1,3 @@
-
 const messageForm = document.querySelector('#messageForm');
 const messageInput = document.querySelector('#message');
 const messageArea = document.querySelector('#messageArea');
@@ -7,30 +6,22 @@ const connectingElement = document.querySelector('#connecting');
 let stompClient = null;
 let username = null;
 
-
 function connect() {
     username = document.querySelector('#username').innerText.trim();
-
     let socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
-
     stompClient.connect({}, onConnected, onError);
 }
 
-// Connect to WebSocket Server.
 connect();
 
 function onConnected() {
-    // Subscribe to the Public Topic
     stompClient.subscribe('/topic/publicChatRoom', onMessageReceived)
-    stompClient.subscribe('/topic/usersOnline',  receiveUsers);
-
-    // Tell your username to the server
+    stompClient.subscribe('/topic/usersOnline', receiveUsers);
     stompClient.send("/app/chat.addUser",
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
     );
-
     connectingElement.classList.add('hidden');
 }
 
@@ -42,7 +33,7 @@ function onError(error) {
 
 function sendMessage(event) {
     let messageContent = messageInput.value.trim();
-    if(messageContent && stompClient) {
+    if (messageContent && stompClient) {
         let chatMessage = {
             sender: username,
             content: messageInput.value,
@@ -56,7 +47,7 @@ function sendMessage(event) {
 
 function receiveUsers(payload) {
     let div = document.getElementById('elem');
-    div.textContent=payload.body;
+    div.textContent = payload.body;
 
 }
 
@@ -64,7 +55,7 @@ function onMessageReceived(payload) {
     let message = JSON.parse(payload.body);
     let messageElement = document.createElement('li');
 
-    if(message.type === 'JOIN') {
+    if (message.type === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' присоединился!';
     } else if (message.type === 'LEAVE') {

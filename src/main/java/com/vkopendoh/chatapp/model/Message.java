@@ -17,7 +17,7 @@ public class Message {
     private String sender;
     private Timestamp dateTime;
 
-    public Message(){
+    public Message() {
     }
 
     public Message(MessageType type, String content, String sender, Timestamp dateTime) {

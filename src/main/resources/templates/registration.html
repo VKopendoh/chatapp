@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Форма регистрации</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <form action="#" th:action="@{/registration}" th:object="${userForm}" method="post">
+        <h2 class="form-signin-heading">Создайте Ваш аккаунт</h2>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('*')} ? 'has-error' : ''">
+            <input name="username" type="text" class="form-control" placeholder="Имя пользователя" autofocus="true"/>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+        </div>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('*')} ? 'has-error' : ''">
+            <input name="password" type="text" class="form-control" placeholder="Пароль" autofocus="true"/>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        </div>
+
+        <div class="form-group" th:classappend="${#fields.hasErrors('*')} ? 'has-error' : ''">
+            <input name="passwordConfirm" type="text" class="form-control" placeholder="Подтверждение пароля"
+                   autofocus="true"/>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('passwordConfirm')}"
+               th:errors="*{passwordConfirm}"></p>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Регистрация</button>
+    </form>
+</div>
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
+

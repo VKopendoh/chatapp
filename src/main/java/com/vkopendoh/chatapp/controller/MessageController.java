@@ -1,7 +1,7 @@
 package com.vkopendoh.chatapp.controller;
 
 import com.vkopendoh.chatapp.model.Message;
-import com.vkopendoh.chatapp.repository.CrudMessageRepository;
+import com.vkopendoh.chatapp.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -16,12 +16,15 @@ import static com.vkopendoh.chatapp.controller.WebSocketEventListener.users;
 
 @Controller
 public class MessageController {
+    private final MessageRepository repository;
+
+    private final SimpMessageSendingOperations messagingTemplate;
 
     @Autowired
-    private CrudMessageRepository repository;
-
-    @Autowired
-    private SimpMessageSendingOperations messagingTemplate;
+    public MessageController(MessageRepository messageRepository, SimpMessageSendingOperations messagingTemplate) {
+        this.repository = messageRepository;
+        this.messagingTemplate = messagingTemplate;
+    }
 
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/publicChatRoom")

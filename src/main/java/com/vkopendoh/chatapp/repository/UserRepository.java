@@ -1,9 +1,10 @@
 package com.vkopendoh.chatapp.repository;
 
-import com.vkopendoh.chatapp.model.Message;
+import com.vkopendoh.chatapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CrudMessageRepository extends JpaRepository<Message,Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
 }

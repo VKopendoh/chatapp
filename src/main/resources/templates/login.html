@@ -1,18 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Вход</title>
-    <link rel="stylesheet" href="/css/style.css" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 
+    <script type="text/javascript"
+            th:src="@{/webjars/jquery/jquery.min.js/}"></script>
+    <script type="text/javascript"
+            th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <title>Регистрация</title>
 </head>
 <body>
-
-<div id="login-container">
-    <h1 class="title">Введите имя</h1>
-    <form id="loginForm" name="loginForm" method="POST">
-        <input type="text" name="username" />
-        <button type="submit">Вход</button>
-    </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2>Авторизация</h2>
+            <hr>
+            <form th:action="@{/login}" method="post">
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">Неверный пользователь или пароль.</div>
+                </div>
+                <div th:if="${param.logout}">
+                    <div class="alert alert-info">Вы вышли.</div>
+                </div>
+                <div class="form-group">
+                    <label for="username">Имя пользователя</label>: <input type="text"
+                                                                           id="username" name="username"
+                                                                           class="form-control"
+                                                                           autofocus="autofocus"
+                                                                           placeholder="Имя пользователя"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль</label>: <input type="password"
+                                                                 id="password" name="password" class="form-control"
+                                                                 placeholder="Пароль"/>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <input type="submit" name="login-submit" id="login-submit"
+                                   class="form-control btn btn-primary" value="Вход"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span>Повыйпользователь? <a href="/" th:href="@{/registration}">Регистрация</a></span>
+                </div>
+            </form>
+            <!--        </div>
+                </div>
+            </div>-->
+            <hr>
+            <!--<div class="row">
+                <div class="col-md-6 col-md-offset-3">-->
+            <h2>Авторизация через социальные сети</h2>
+            <div class="container unauthenticated">
+                <div>
+                    <a href="/login/facebook">Через Facebook</a>
+                </div>
+                <div>
+                    <a href="/login/github">Через Github</a>
+                </div>
+            </div>
+            <div class="container authenticated" style="display: none">
+                Авторизован как: <span id="user"></span>
+                <div>
+                    <button onClick="logout()" class="btn btn-primary">Выход</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script type="text/javascript" th:src="@{/webjars/js-cookie/js.cookie.js}"></script>
+<script type="text/javascript">
+    $.get("/user", function (data) {
+        $("#user").html(data.name);
+        if (data.name === undefined) {
+            logout();
+        } else {
+            $(".unauthenticated").hide();
+            $(".authenticated").show();
+        }
+    });
+    var logout = function () {
+        $.post("/logout", function () {
+            $("#user").html('');
+            $(".unauthenticated").show();
+            $(".authenticated").hide();
+        });
+        return true;
+    }
+</script>
 </body>
 </html>

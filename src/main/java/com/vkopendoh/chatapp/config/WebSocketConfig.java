@@ -12,8 +12,12 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final HttpHandshakeInterceptor handshakeInterceptor;
+
     @Autowired
-    private HttpHandshakeInterceptor handshakeInterceptor;
+    public WebSocketConfig (HttpHandshakeInterceptor handshakeInterceptor){
+        this.handshakeInterceptor = handshakeInterceptor;
+    }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

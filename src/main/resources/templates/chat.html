@@ -2,21 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Чат</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 
-    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
-    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
-    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
-    <script src="/webjars/bootstrap/4.1.0/webjars-requirejs.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/webjars-requirejs.js"></script>
 
 </head>
 <body>
-
 <div id="chat-container">
     <div class="chat-header">
         <div class="user-container">
             <span id="username" th:utext="${username}"></span>
-            <a th:href="@{/logout}">Выход</a>
+            <a href="javascript: document.logoutForm.submit()" role="menuitem"> Выход</a>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form>
+
         </div>
         <h3>Активные пользователи:</h3>
         <div id="elem" class="online">
@@ -32,17 +37,15 @@
             <span>[[${message.content}]]</span>
         </li>
     </ul>
-    <form id="messageForm" name="messageForm">
-        <div class="input-message">
+
+    <form id="messageForm" name="messageForm" class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
             <input type="text" id="message" autocomplete="off"
-                   placeholder="Напишите сообщение..."/>
-            <button type="submit">Послать сообщение</button>
+                   placeholder="Напишите сообщение..." class="form-control"/>
         </div>
+        <button class="btn btn-primary mb-2" type="submit">Послать сообщение</button>
     </form>
-
 </div>
-
-
 
 <script th:src="@{/js/ws.js}"></script>
 
